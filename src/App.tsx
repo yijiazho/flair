@@ -1,26 +1,57 @@
-import React from 'react';
+import React, { Component, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { SearchBarComponent } from 'src/component/search-bar/search-bar.component';
+import { sampleAssets } from 'src/data/sample.data';
+import { AssetGridComponent } from 'src/component/asset-grid/asset-grid.component';
+import { SearchFilters } from 'src/data/search-filters';
+import { filterAssets } from './service/filter.service';
+import { Asset } from './data/asset';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface AppState {
+  filters: SearchFilters;
+  filteredAssets: Asset[];
+}
+
+
+class App extends Component<{}, AppState> {
+
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      filters: {
+        query: '',
+        dateRange: { start: 0, end: Date.now() },
+        tags: '',
+        description: '',
+      },
+      filteredAssets: sampleAssets
+    };
+  }
+
+  setFilters = (filters: SearchFilters) => {
+    this.setState({ filters }, this.applyFilters);
+  };
+
+  applyFilters = () => {
+    const filteredAssets = filterAssets(sampleAssets, this.state.filters);
+    this.setState({ filteredAssets });
+  };
+
+  render() {
+    const { filters, filteredAssets } = this.state;
+
+    return (
+      <div className="App">
+        <SearchBarComponent 
+          filters={filters} 
+          setFilters={this.setFilters} 
+        />
+        <p>Current Search Filters: {JSON.stringify(filters)}</p>
+        <AssetGridComponent assets={filteredAssets} />
+      </div>
+    );
+  }
 }
 
 export default App;
