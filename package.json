@@ -17,7 +17,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "concurrently \"npm run start-react\" \"npm run start-api\"",
+    "start": "npm run start-react",
     "start-react": "react-scripts start",
     "start-api": "python api/FlaskApp.py",
     "build": "react-scripts build",
