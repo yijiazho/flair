@@ -2,9 +2,28 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Project Structure
+
+/
+├── src/
+|   ├── data/
+|   |   └── data models
+│   ├── component/
+│   │   └── UI components...
+│   └── api/
+│       └── backend API
+└── App.tsx 
+
+
+
 ## Available Scripts
 
 In the project directory, you can run:
+
+
+### `.\flair\Scripts\activate`
+
+Enables the virtual environment
 
 ### `npm start`
 

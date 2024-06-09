@@ -1,4 +1,4 @@
-import React, {ChangeEvent, Component} from 'react';
+import React, { ChangeEvent, Component } from 'react';
 import { SearchFilters } from 'src/data/search-filters';
 
 interface SearchBarProps {
@@ -6,7 +6,6 @@ interface SearchBarProps {
   setFilters: (filters: SearchFilters) => void;
 }
 
-// some state to keep track
 interface SearchBarState {
   filters: SearchFilters;
   count: number;
@@ -14,7 +13,7 @@ interface SearchBarState {
 
 export class SearchBarComponent extends Component<SearchBarProps, SearchBarState> {
   placeHolder: string = 'Search assets';
-  
+
   constructor(props: SearchBarProps) {
     super(props);
     this.state = {
@@ -24,37 +23,51 @@ export class SearchBarComponent extends Component<SearchBarProps, SearchBarState
   }
 
   increment = () => {
-    this.setState({count: this.state.count + 1});
+    this.setState({ count: this.state.count + 1 });
   }
 
   handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log("handle input change")
-    const {name, value} = event.target;
-    this.setState(prevState => ({
-      filters: { ...prevState.filters, [name]: value },
-    }), () => console.log(this.state.filters));
-    
+    const { name, value } = event.target;
+    this.setState(
+      prevState => ({
+        filters: { ...prevState.filters, [name]: value },
+      })
+    );
   }
 
   handleDateRangeChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    this.setState(prevState => ({
-      filters: {
-        ...prevState.filters,
-        dateRange: {
-          ...prevState.filters.dateRange,
-          [name]: new Date(value).getTime(),
+    this.setState(
+      prevState => ({
+        filters: {
+          ...prevState.filters,
+          dateRange: {
+            ...prevState.filters.dateRange,
+            [name]: new Date(value).getTime(),
+          },
         },
-      },
-    }));
+      })
+    );
   }
 
-  applyFilters = () => {
+  applyFilters = async () => {
     this.props.setFilters(this.state.filters);
+    console.log("apply filters")
+    try {
+      const response = await fetch(`http://localhost:5000/search?query=${this.state.filters.description}`);
+      if (!response.ok) {
+        console.log("not ok")
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const results = await response.json();
+      console.log(results); // Handle the search results here
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
   }
 
   render() {
-    const { query, dateRange, tags, description } = this.props.filters;
+    const { query, dateRange, tags, description } = this.state.filters;
 
     return (
       <div>
@@ -110,14 +123,12 @@ export class SearchBarComponent extends Component<SearchBarProps, SearchBarState
           Increment
         </button>
 
-
         <button
           onClick={this.applyFilters}
           className='mt-2 p-2 bg-green-500 text-white rounded ml-2'
         >
           Apply Filters
         </button>
-
 
         <div>Count: {this.state.count}</div>
       </div>

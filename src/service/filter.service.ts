@@ -8,15 +8,6 @@ export const filterAssets = (assets: Asset[], filters: SearchFilters): Asset[] =
         const startDate = filters.dateRange.start;
         const endDate = filters.dateRange.end;
 
-        console.log(asset)
-        
-        asset.tags.forEach(tag => {
-            console.log(tag)
-
-            const flag = tag.includes(filters.tags);
-            console.log(flag);
-        })
-
         return (
             asset.title.includes(filters.query) &&
             asset.description.includes(filters.description) &&
