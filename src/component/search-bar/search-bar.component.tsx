@@ -1,5 +1,6 @@
 import React, { ChangeEvent, Component } from 'react';
 import { SearchFilters } from 'src/data/search-filters';
+import { searchDocuments } from 'src/service/search.service';
 
 interface SearchBarProps {
   filters: SearchFilters;
@@ -54,13 +55,8 @@ export class SearchBarComponent extends Component<SearchBarProps, SearchBarState
     this.props.setFilters(this.state.filters);
     console.log("apply filters")
     try {
-      const response = await fetch(`http://localhost:5000/search?query=${this.state.filters.description}`);
-      if (!response.ok) {
-        console.log("not ok")
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const results = await response.json();
-      console.log(results); // Handle the search results here
+      const searchResults = await searchDocuments(this.state.filters.description)
+      console.log(searchResults); // Handle the search results here
     } catch (error) {
       console.error('Error fetching search results:', error);
     }
