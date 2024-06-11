@@ -1,12 +1,12 @@
 import React, { Component, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { SearchBarComponent } from 'src/component/search-bar/search-bar.component';
+import { SearchBarComponent } from 'src/component/asset/search-bar/search-bar.component';
 import { sampleAssets } from 'src/data/sample.data';
-import { AssetGridComponent } from 'src/component/asset-grid/asset-grid.component';
+import { AssetGridComponent } from 'src/component/asset/grid/asset-grid.component';
 import { SearchFilters } from 'src/data/search-filters';
-import { filterAssets } from './service/filter.service';
 import { Asset } from './data/asset';
+import MainComponent from './component/main.component';
 
 interface AppState {
   filters: SearchFilters;
@@ -29,26 +29,21 @@ class App extends Component<{}, AppState> {
     };
   }
 
-  setFilters = (filters: SearchFilters) => {
-    this.setState({ filters }, this.applyFilters);
-  };
+  // setFilters = (filters: SearchFilters) => {
+  //   this.setState({ filters }, this.applyFilters);
+  // };
 
-  applyFilters = () => {
-    const filteredAssets = filterAssets(sampleAssets, this.state.filters);
-    this.setState({ filteredAssets });
-  };
+  // applyFilters = () => {
+  //   const filteredAssets = filterAssets(sampleAssets, this.state.filters);
+  //   this.setState({ filteredAssets });
+  // };
 
   render() {
     const { filters, filteredAssets } = this.state;
 
     return (
       <div className="App">
-        <SearchBarComponent 
-          filters={filters} 
-          setFilters={this.setFilters} 
-        />
-        <p>Current Search Filters: {JSON.stringify(filters)}</p>
-        <AssetGridComponent assets={filteredAssets} />
+        <MainComponent/>
       </div>
     );
   }
