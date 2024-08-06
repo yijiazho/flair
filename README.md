@@ -3,7 +3,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Project Structure
-
+```
 /
 ├── src/
 |   ├── data/
@@ -13,7 +13,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 │   └── api/
 │       └── backend API
 └── App.tsx 
-
+```
 
 
 ## Available Scripts

@@ -1,10 +1,12 @@
-import client from "../src/client/client.js"
+const client = require("../src/client/client.js")
 
 let searchParameters = {
-    'q'         : 'harry potter',
+    'q'         : '*',
     'query_by'  : 'title',
-    'filter_by' : 'publication_year:<1998',
-    'sort_by'   : 'publication_year:desc'
+    'filter_by' : 'average_rating:>3',
+    'sort_by'   : 'average_rating:desc',
+    'per_page'  : '5',
+    'offset'     : '100'
   }
   
   client.collections('books')
@@ -12,6 +14,8 @@ let searchParameters = {
     .search(searchParameters)
     .then(function (searchResults) {
       console.log(JSON.stringify(searchResults))
+      console.log(searchResults.hits?.length)
+      
     })
   
   

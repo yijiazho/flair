@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
+import './search-bar.css'
 
 import client from 'src/client/client.js';
 
@@ -25,7 +26,7 @@ const SearchBar: React.FC = () => {
         type="text"
         value={query}
         onChange={handleInputChange}
-        placeholder="Search...123"
+        placeholder="Search..."
       />
       <button type="button" onClick={handleButtonClick}>
         Search 123

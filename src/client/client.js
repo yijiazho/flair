@@ -5,7 +5,7 @@
  *  has write access to Typesense and you don't want to expose that.
  */
 
-import Typesense from 'typesense'
+const Typesense = require('typesense')
 
 let client = new Typesense.Client({
   'nodes': [{
@@ -17,4 +17,4 @@ let client = new Typesense.Client({
   'connectionTimeoutSeconds': 2
 })
 
-export default client;
+module.exports = client;

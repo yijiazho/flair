@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Company } from 'src/data/company';
 import { FilterService } from 'src/service/filter.service';
-import CompanyGridComponent from 'src/component/company/grid/company-grid.component';
+import { Book } from 'src/data/book';
+import BookGridComponent from 'src/component/book/grid/book-grid.component';
+import PaginationComponent from 'src/component/pagination/pagination.component';
 
 interface MainComponentState {
-  companies: Company[];
+  books: Book[];
+  total: number;
+  currentPage: number;
 }
 
 export class MainComponent extends Component<{}, MainComponentState> {
@@ -14,30 +17,39 @@ export class MainComponent extends Component<{}, MainComponentState> {
     super(props);
     this.filterService = new FilterService();
     this.state = {
-      companies: []
+      books: [],
+      total: 0,
+      currentPage: 1
     };
   }
 
   componentDidMount() {
-    this.applyFilters();
+    this.applyFilters(this.state.currentPage);
   }
 
-  applyFilters = async () => {
+  applyFilters = async (page: number) => {
     try {
-      const companies = await this.filterService.applyFilters();
-      this.setState({ companies });
+      const { books, total } = await this.filterService.applyFilters(page);
+      this.setState({ books, total, currentPage: page });
     } catch (error) {
       console.error("Error fetching companies:", error);
     }
   };
 
-  render() {
-    const { companies } = this.state;
+  handlePageChange = (page: number) => {
+    this.applyFilters(page);
+  };
 
+  render() {
+    const { books, total, currentPage } = this.state;
+    const MAX_PAGES = 10;
+    const totalPages = Math.min(MAX_PAGES, Math.ceil(total / 10));
+    
     return (
       <div>
-        <h1>Company List</h1>
-        <CompanyGridComponent companies={companies} />
+        <h1>Book List</h1>
+        <BookGridComponent books={books} />
+        <PaginationComponent totalPages={totalPages} currentPage={currentPage} onPageChange={this.handlePageChange} />
       </div>
     );
   }

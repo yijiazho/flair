@@ -1,4 +1,4 @@
-import client from "../src/client/client.js"
+const client = require('../src/client/client.js')
 
 let booksSchema = {
     'name': 'books',
@@ -15,6 +15,6 @@ let booksSchema = {
   
   client.collections().create(booksSchema)
     .then(function (data) {
-      console.log(data)
+      console.log(JSON.stringify(data))
     })
   

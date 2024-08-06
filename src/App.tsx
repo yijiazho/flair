@@ -7,7 +7,8 @@ import { AssetGridComponent } from 'src/component/asset/grid/asset-grid.componen
 import { SearchFilters } from 'src/data/search-filters';
 import { Asset } from './data/asset';
 import MainComponent from './component/main.component';
-import SearchBar from './component/company/search-bar/search-bar.component';
+import SearchBar from './component/book/search-bar/search-bar.component';
+import Test from './component/test';
 
 interface AppState {
   filters: SearchFilters;
@@ -43,12 +44,11 @@ class App extends Component<{}, AppState> {
     const { filters, filteredAssets } = this.state;
 
     return (
-      <div className="App">
+      <div className="App">        
         
         <SearchBar />
         
         <MainComponent/>
-
 
       </div>
     );
